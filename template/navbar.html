@@ -1,0 +1,25 @@
+
+<nav class="navbar">
+    <div class= "nav-left">
+        <a href = "/"> Game Catalog </a>
+    </div>
+    <div class="nav-center">
+        <a href="/gamepage">
+            <img src="{{ url_for('static', filename='DBApp_icon/home.svg') }}" alt="home"  height="50px">
+        </a>
+        <a href="/list">
+            <img src="{{ url_for('static', filename='DBApp_icon/catalogue.svg')}}" alt="catalogue" height="50px">
+        </a>
+        <a href="/order">
+            <img src="{{ url_for('static', filename='DBApp_icon/cart.svg')}}" alt="cart" height="50px">
+        </a>
+    <div class="nav-right">
+        <input type="text" placeholder="Search games...">
+        <img src="{{ url_for('static', filename='DBApp_icon/search.svg') }}" alt="search" height="50px">
+        <div class="authentication">
+                <a href="/login">
+                    <img src="{{ url_for('static', filename='DBApp_icon/user.svg') }}" alt="user" height="50px">
+                </a>
+        </div>
+    </div>
+</nav>
