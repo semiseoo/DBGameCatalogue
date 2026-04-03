@@ -5,11 +5,11 @@ from flask import Flask, render_template
 app= Flask(__name__, template_folder='template')
 
 #class Database:
-#    def __init__(self):
-#        host = credentials.DB_HOST
-#        user = credentials.DB_USER
-#        pwd = credentials.DB_PWD
-#        db = credentials.DB_NAME
+ #   def __init__(self):
+  #      host = credentials.DB_HOST
+   #     user = credentials.DB_USER
+    #    pwd = credentials.DB_PWD
+     #   db = credentials.DB_NAME
 
 #        self.con = pymysql.connect(
 #            host=host,
@@ -17,9 +17,9 @@ app= Flask(__name__, template_folder='template')
 #            password=pwd,
 #            database=db,
 #            cursorclass=pymysql.cursors.DictCursor
-#        )
+ #       )
 
-#        self.cur = self.con.cursor()
+  #      self.cur = self.con.cursor()
 
 @app.route("/")
 def index():
