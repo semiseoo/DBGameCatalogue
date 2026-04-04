@@ -113,8 +113,8 @@ class Database:
             self.cur.execute(query, (name,))
             self.conn.commit()
             result = "success"
-        except:
-            result = "Failure"
+        except Exception as e:
+            result = e
         return result
 
     def insertTag(self, name):
@@ -274,10 +274,11 @@ def addDeveloper():
 @app.route("/add/publisher", methods=["POST"])
 def addPublisher():
     db = Database()
+    test = "None"
     name = request.form["Name"]
-    db.insertPublisher(name)
+    test = db.insertPublisher(name)
     db.close()
-    return redirect("/admin")
+    return render_template("admin.html", test=test)
 
 @app.route("/add/tag", methods=["POST"])
 def addTag():
