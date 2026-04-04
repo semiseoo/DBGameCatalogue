@@ -34,15 +34,8 @@ class Database:
         self.con.close()
 
     def getGamesList(self, sort, time, tagSelect, offset):
-        query = "SELECT g.GameID, g.Name, g.Rating, g.Price, GROUP_CONCAT(t.Name ORDER BY t.Name SEPARATOR ', ') AS Tags FROM Game as g LEFT JOIN GameTag as gt on g.GameID=gt.GameID LEFT JOIN Tag as t on gt.TagID=t.TagID GROUP BY g.GameID WHERE 1=1"
+        query = "SELECT g.GameID, g.Name, g.Rating, g.Price, GROUP_CONCAT(t.Name ORDER BY t.Name SEPARATOR ', ') AS Tags FROM Game as g LEFT JOIN GameTag as gt on g.GameID=gt.GameID LEFT JOIN Tag as t on gt.TagID=t.TagID WHERE 1=1"
         params = []
-
-        if sort == "Alphabetical":
-            query += " ORDER BY Name ASC"
-        elif sort == "TopRated":
-            query += " ORDER BY Rating DESC"
-        elif sort == "MostRecent":
-            query += " ORDER BY ReleaseDate DESC"
 
         if time == "Today":
             query += " AND ReleaseDate >= CURDATE()"
@@ -52,6 +45,15 @@ class Database:
             query += " AND ReleaseDate >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)"
         elif time == "ThisYear":
             query += " AND ReleaseDate >= DATE_SUB(CURDATE(), INTERVAL 365 DAY)"
+
+        query += " GROUP BY g.GameID"
+
+        if sort == "Alphabetical":
+            query += " ORDER BY Name ASC"
+        elif sort == "TopRated":
+            query += " ORDER BY Rating DESC"
+        elif sort == "MostRecent":
+            query += " ORDER BY ReleaseDate DESC"
 
         if tagSelect:
             placeholders = ",".join(["%s"] * len(tagSelect))
@@ -112,7 +114,7 @@ def list():
         offset = (page - 1) * 50
 
         
-        gamesList = db.getGamesList("TopRated", None, [])
+        gamesList = db.getGamesList("TopRated", None, [], offset)
 
     # Convert flat list → 5x10 matrix
     grid = []
