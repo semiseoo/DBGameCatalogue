@@ -166,7 +166,7 @@ def gamepage(GameID):
 
 # BELOW THIS POINT IS SIMPLY PAGES TO ADD DATA TO THE DATABASE AND WILL NOT BE NECESSARY FOR THE FINAL PRODUCT
 @app.route("/admin")
-def admin_panel():
+def adminPanel():
     self.cur.execute("SELECT * FROM Developer")
     developers = self.cur.fetchall()
 
@@ -188,28 +188,28 @@ def admin_panel():
     )
 
 @app.route("/add/developer", methods=["POST"])
-def add_developer():
+def addDeveloper():
     name = request.form["Name"]
     self.cur.execute(f"INSERT INTO Developer (Name) VALUES {name}")
     self.conn.commit()
     return redirect("/admin")
 
 @app.route("/add/publisher", methods=["POST"])
-def add_developer():
+def addPublisher():
     name = request.form["Name"]
     self.cur.execute(f"INSERT INTO Publisher (Name) VALUES {name}")
     self.conn.commit()
     return redirect("/admin")
 
 @app.route("/add/tag", methods=["POST"])
-def add_developer():
+def addTag():
     name = request.form["Name"]
     self.cur.execute(f"INSERT INTO Tag (Name) VALUES {name}")
     self.conn.commit()
     return redirect("/admin")
 
 @app.route("/add/game", methods=["POST"])
-def add_developer():
+def addGame():
     name = request.form["Name"]
     Description = request.form["Description"]
     DeveloperID = request.form["DeveloperID"]
@@ -222,7 +222,7 @@ def add_developer():
     return redirect("/admin")
 
 @app.route("/add/dlc", methods=["POST"])
-def add_developer():
+def addDLC():
     name = request.form["Name"]
     GameID = request.form["GameID"]
     Price = request.form["Price"]
@@ -231,7 +231,7 @@ def add_developer():
     return redirect("/admin")
 
 @app.route("/add/gametag", methods=["POST"])
-def add_developer():
+def addGametag():
     GameID = request.form["GameID"]
     TagID = request.form["TagID"]
     self.cur.execute(f"INSERT INTO Developer (Name, GameID, TagID) VALUES {name}, {GameID}, {TagID}")
