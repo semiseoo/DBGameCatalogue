@@ -34,7 +34,7 @@ class Database:
         self.con.close()
 
     def getGamesList(self, sort, time, tagSelect, offset):
-        query = "SELECT g.GameID, g.Name, g.Rating, g.Price, GROUP_CONCAT(t.Name ORDER BY t.Name SEPARATOR ', ') AS Tags FROM Game as g LEFT JOIN GameTag as gt on g.GameID=gt.GameID LEFT JOIN Tag as t on gt.TagID=t.TagID WHERE 1=1"
+        query = "SELECT g.GameID, g.Name, g.Rating, g.Price, GROUP_CONCAT(t.Name ORDER BY t.Name SEPARATOR ', ') AS Tags FROM Game as g LEFT JOIN Gametag as gt on g.GameID=gt.GameID LEFT JOIN Tag as t on gt.TagID=t.TagID WHERE 1=1"
         params = []
 
         if time == "Today":
@@ -103,6 +103,9 @@ def list():
 
         # get the page number and set the offset accordingly
         page = int(request.args.get("page", 1))
+        if page < 1:
+            page = 1
+
         offset = (page - 1) * 50
 
         # Run SQL query using the form data
@@ -111,6 +114,9 @@ def list():
         # Default table on first load
         # get the page number and set the offset accordingly
         page = int(request.args.get("page", 1))
+        if page < 1:
+            page = 1
+
         offset = (page - 1) * 50
 
         
@@ -135,7 +141,7 @@ def list():
     lastPage = len(gamesList) < 50
 
     db.close()
-    return render_template('list.html', tags=tags, grid=grid, lastPage=lastPage)
+    return render_template('list.html', tags=tags, grid=grid, page=page, lastPage=lastPage)
 
 @app.route("/order")
 def order():
