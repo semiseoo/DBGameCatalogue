@@ -102,7 +102,7 @@ class Database:
             query = "INSERT INTO Developer (Name) VALUES (%s)"
             self.cur.execute(query, (name,))
             self.con.commit()
-            result = "success"
+            result = "Success"
         except:
             result = "Failure"
         return result
@@ -112,9 +112,9 @@ class Database:
             query = "INSERT INTO Publisher (Name) VALUES (%s)"
             self.cur.execute(query, (name,))
             self.con.commit()
-            result = "success"
-        except Exception as e:
-            result = e
+            result = "Success"
+        except:
+            result = "Failure"
         return result
 
     def insertTag(self, name):
@@ -122,7 +122,7 @@ class Database:
             query = "INSERT INTO Tag (Name) VALUES (%s)"
             self.cur.execute(query, (name,))
             self.con.commit()
-            result = "success"
+            result = "Success"
         except:
             result = "Failure"
         return result
@@ -132,7 +132,7 @@ class Database:
             query = "INSERT INTO Game (Name, Description, DeveloperID, PublisherID, Rating, Price, ReleaseDate) VALUES (%s, %s, %s, %s, %s, %s, %s)"
             self.cur.execute(query, (name, Description, DeveloperID, PublisherID, Rating, Price, ReleaseDate))
             self.con.commit()
-            result = "success"
+            result = "Success"
         except:
             result = "Failure"
         return result
@@ -143,7 +143,7 @@ class Database:
             query = "INSERT INTO DLC (Name, GameID, Price) VALUES (%s, %s, %s)"
             self.cur.execute(query, (name, GameID, Price))
             self.con.commit()
-            result = "success"
+            result = "Success"
         except:
             result = "Failure"
         return result
@@ -153,7 +153,7 @@ class Database:
             query = "INSERT INTO Gametag (GameID, TagID) VALUES (%s, %s)"
             self.cur.execute(query, (GameID, TagID))
             self.con.commit()
-            result = "success"
+            result = "Success"
         except:
             result = "Failure"
         return result
@@ -274,11 +274,10 @@ def addDeveloper():
 @app.route("/add/publisher", methods=["POST"])
 def addPublisher():
     db = Database()
-    test = "None"
     name = request.form["Name"]
-    test = db.insertPublisher(name)
+    db.insertPublisher(name)
     db.close()
-    return render_template("admin.html", test=test)
+    return redirect("/admin")
 
 @app.route("/add/tag", methods=["POST"])
 def addTag():
