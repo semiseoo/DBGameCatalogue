@@ -31,12 +31,37 @@
             <option value="{{ item.TagID }}">{{ item.Name }}</option>
         {% endfor %}
     </select>
-    <input type="submit" />
+    <input type="submit" value="Apply Filters"/>
 </form>
 
 <!-- add table which displays top games -->
+<table border="1">
+    {% for row in grid %}
+        <tr>
+            {% for cell in row %}
+                <td>
+                    {% if cell %}
+                        {{ cell.Name }}<br>
+                        Rating: {{ cell.Rating }}<br>
+                        Released: {{ cell.ReleaseDate }}<br>
+                        Price: {{ cell.Price }}
+                    {% else %}
+                        <!-- empty cell -->
+                    {% endif %}
+                </td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+</table>
 
 
 <!-- add buttons to view next/previous page of games -->
+<a href="/list?page={{ page - 1 }}" {% if page == 1 %}style="visibility:hidden"{% endif %}>
+    Previous Page
+</a>
+
+<a href="/list?page={{ page + 1 }}" {% if lastPage == True %}style="visibility:hidden"{% endif %}>
+    Next Page
+</a>
 
 {% endblock %}

@@ -33,7 +33,7 @@ class Database:
     def close(self):
         self.con.close()
 
-def getGamesList(self, sort, time, tagSelect):
+def getGamesList(self, sort, time, tagSelect, offset):
     query = "SELECT g.GameID, g.Name, g.Rating, g.Price, GROUP_CONCAT(t.Name ORDER BY t.Name SEPARATOR ', ') AS Tags FROM Game as g LEFT JOIN GameTag as gt on g.GameID=gt.GameID LEFT JOIN Tag as t on gt.TagID=t.TagID GROUP BY g.GameID WHERE 1=1"
     params = []
 
@@ -59,6 +59,8 @@ def getGamesList(self, sort, time, tagSelect):
         params.extend(tagSelect)
 
     query += " LIMIT 50"
+
+    query += f" OFFSET {offset}"
 
     self.cur.execute(query, params)
     return self.cur.fetchall()
@@ -97,14 +99,41 @@ def list():
         selectedTime = request.form.get("time")
         selectedTags = request.form.getlist("tagSelect")
 
-        # Run your SQL query using the form data
-        gamesList = db.getGamesList(selectedSort, selectedTime, selectedTags)
+        # get the page number and set the offset accordingly
+        page = int(request.args.get("page", 1))
+        offset = (page - 1) * 50
+
+        # Run SQL query using the form data
+        gamesList = db.getGamesList(selectedSort, selectedTime, selectedTags, offset)
     else:
         # Default table on first load
-        gamesList = db.getGamesList(None, None, [])
+        # get the page number and set the offset accordingly
+        page = int(request.args.get("page", 1))
+        offset = (page - 1) * 50
+
+        
+        gamesList = db.getGamesList("TopRated", None, [])
+
+    # Convert flat list → 5x10 matrix
+    grid = []
+    row = []
+
+    for i, item in enumerate(gamesList):
+        row.append(item)
+        if (i + 1) % 5 == 0:
+            grid.append(row)
+            row = []
+
+    # If fewer than 50 results, pad the last row
+    if row:
+        while len(row) < 5:
+            row.append(None)
+        grid.append(row)
+        
+    lastPage = len(gamesList) < 50
 
     db.close()
-    return render_template('list.html', tags=tags, gamesList=gamesList, selectedSort=selectedSort, selectedTime=selectedTime, selectedTags=selectedTags)
+    return render_template('list.html', tags=tags, grid=grid, lastPage=lastPage)
 
 @app.route("/order")
 def order():
