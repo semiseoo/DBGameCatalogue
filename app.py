@@ -101,7 +101,7 @@ class Database:
         try:
             query = "INSERT INTO Developer (Name) VALUES (%s)"
             self.cur.execute(query, (name,))
-            self.conn.commit()
+            self.con.commit()
             result = "success"
         except:
             result = "Failure"
@@ -111,7 +111,7 @@ class Database:
         try:
             query = "INSERT INTO Publisher (Name) VALUES (%s)"
             self.cur.execute(query, (name,))
-            self.conn.commit()
+            self.con.commit()
             result = "success"
         except Exception as e:
             result = e
@@ -121,7 +121,7 @@ class Database:
         try:
             query = "INSERT INTO Tag (Name) VALUES (%s)"
             self.cur.execute(query, (name,))
-            self.conn.commit()
+            self.con.commit()
             result = "success"
         except:
             result = "Failure"
@@ -131,7 +131,7 @@ class Database:
         try:
             query = "INSERT INTO Game (Name, Description, DeveloperID, PublisherID, Rating, Price, ReleaseDate) VALUES (%s, %s, %s, %s, %s, %s, %s)"
             self.cur.execute(query, (name, Description, DeveloperID, PublisherID, Rating, Price, ReleaseDate))
-            self.conn.commit()
+            self.con.commit()
             result = "success"
         except:
             result = "Failure"
@@ -142,7 +142,7 @@ class Database:
         try:
             query = "INSERT INTO DLC (Name, GameID, Price) VALUES (%s, %s, %s)"
             self.cur.execute(query, (name, GameID, Price))
-            self.conn.commit()
+            self.con.commit()
             result = "success"
         except:
             result = "Failure"
@@ -152,7 +152,7 @@ class Database:
         try:
             query = "INSERT INTO Gametag (GameID, TagID) VALUES (%s, %s)"
             self.cur.execute(query, (GameID, TagID))
-            self.conn.commit()
+            self.con.commit()
             result = "success"
         except:
             result = "Failure"
