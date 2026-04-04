@@ -1,16 +1,3 @@
-CREATE TABLE `Game`(
-	`GameID` int NOT NULL AUTO_INCREMENT,
-	`Name` VARCHAR(100) NOT NULL,
-	`Description` TEXT,
-	`DeveloperID` int NOT NULL,
-	`PublisherID` INT NOT NULL,
-	`Rating` int DEFAULT NULL,
-	`Price` DECIMAL(10, 2) NOT NULL,
-	PRIMARY KEY (`GameID`),
-	CONSTRAINT `Game_Dev_FK` FOREIGN KEY (`DeveloperID`) REFERENCES `Developer` (`DeveloperID`) ON DELETE CASCADE,
-	CONSTRAINT `Game_Pub_FK` FOREIGN KEY (`PublisherID`) REFERENCES `Publisher` (`PublisherID`) ON DELETE CASCADE
-) ENGINE=InnoDB;
-
 CREATE TABLE `Developer`(
 	`DeveloperID` int NOT NULL AUTO_INCREMENT,
 	`Name` VARCHAR(100) NOT NULL,
@@ -21,6 +8,20 @@ CREATE TABLE `Publisher`(
 	`PublisherID` int NOT NULL AUTO_INCREMENT,
 	`Name` VARCHAR(100) NOT NULL,
 	PRIMARY KEY (`PublisherID`)
+) ENGINE=InnoDB;
+
+CREATE TABLE `Game`(
+	`GameID` int NOT NULL AUTO_INCREMENT,
+	`Name` VARCHAR(100) NOT NULL,
+	`Description` TEXT,
+	`DeveloperID` int NOT NULL,
+	`PublisherID` INT NOT NULL,
+	`Rating` int DEFAULT NULL,
+	`Price` DECIMAL(10, 2) NOT NULL,
+	`ReleaseDate` date DEFAULT NULL,
+	PRIMARY KEY (`GameID`),
+	CONSTRAINT `Game_Dev_FK` FOREIGN KEY (`DeveloperID`) REFERENCES `Developer` (`DeveloperID`) ON DELETE CASCADE,
+	CONSTRAINT `Game_Pub_FK` FOREIGN KEY (`PublisherID`) REFERENCES `Publisher` (`PublisherID`) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
 CREATE TABLE `Tag`(
@@ -37,6 +38,15 @@ CREATE TABLE `Gametag`(
 	CONSTRAINT `Gametag_Tag_FK` FOREIGN KEY (`TagID`) REFERENCES `Tag` (`TagID`) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
+CREATE TABLE `User`(
+	`UserID` int NOT NULL AUTO_INCREMENT,
+	`Username` VARCHAR(100) NOT NULL,
+	`Password` VARCHAR(255) NOT NULL,
+	`Email` VARCHAR(100) NOT NULL,
+	PRIMARY KEY (`UserID`),
+	UNIQUE KEY `Email` (`Email`)
+) ENGINE=InnoDB;
+
 CREATE TABLE `Review`(
 	`UserID` int NOT NULL,
 	`GameID` int NOT NULL,
@@ -48,6 +58,14 @@ CREATE TABLE `Review`(
 	CHECK (StarRating BETWEEN 1 AND 5)
  ) ENGINE=InnoDB;
 
+CREATE TABLE `Purchase`(
+	`PurchaseID` int NOT NULL AUTO_INCREMENT,
+	`UserID` int NOT NULL,
+	`Date` date DEFAULT NULL,
+	PRIMARY KEY (`PurchaseID`),
+	CONSTRAINT `Purchase_User_FK` FOREIGN KEY (`UserID`) REFERENCES `User` (`UserID`)
+) ENGINE=InnoDB;
+
 CREATE TABLE `DLC`(
 	`DLCID` int NOT NULL AUTO_INCREMENT,
 	`Name` VARCHAR(100) NOT NULL,
@@ -55,23 +73,6 @@ CREATE TABLE `DLC`(
 	`Price` decimal(10, 2) NOT NULL,
 	PRIMARY KEY (`DLCID`),
 	CONSTRAINT `DLC_Game_FK` FOREIGN KEY (`GameID`) REFERENCES `Game` (`GameID`) ON DELETE CASCADE
-) ENGINE=InnoDB;
-
-CREATE TABLE `User`(
-	`UserID` int NOT NULL AUTO_INCREMENT,
-	`Username` VARCHAR(100) NOT NULL,
-	`Password` VARCHAR(255) NOT NULL,
-	`Email` VARCHAR(100) NOT NULL,
-	PRIMARY KEY (`UserID`),
-	UNIQUE KEY `Email` (`Email`)
-) ENGINE=InnoDB;
-
-CREATE TABLE `Purchase`(
-	`PurchaseID` int NOT NULL AUTO_INCREMENT,
-	`UserID` int NOT NULL,
-	`Date` date DEFAULT NULL,
-	PRIMARY KEY (`PurchaseID`),
-	CONSTRAINT `Purchase_User_FK` FOREIGN KEY (`UserID`) REFERENCES `User` (`UserID`)
 ) ENGINE=InnoDB;
 
 CREATE TABLE `PurchaseItem`(

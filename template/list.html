@@ -1,9 +1,42 @@
 {% extends "base.html" %}
 
 {% block content %}
+<script>
+  $(document).ready(function() {
+    $('#TagSelect').select2();
+  });
+</script>
 
 <h1>Game Catalogue</h1>
 
-<p>This is where the games will show</p>
+<!-- add filter bar to sort game list by tags/alphabetical/etc -->
+<form method="POST">
+    <label for="cars">Sort By:</label>
+    <select id="sort" name="sort">
+        <option value="Alphabetical">Alphabetical</option>
+        <option value="TopRated">Top Rated</option>
+        <option value="MostRecent">Most Recent</option>
+    </select>
+    <label for="time">Time Range:</label>
+    <select id="time" name="time">
+        <option value="Today">Today</option>
+        <option value="ThisWeek">This Week</option>
+        <option value="ThisMonth">This Month</option>
+        <option value="ThisYear">This Year</option>
+        <option value="AllTime">All Time</option>
+    </select>
+    <label for="TagSelect">Select Tags:</label>
+    <select id="TagSelect" name="TagSelect" multiple>
+        {% for item in tags %}
+            <option value="{{ item.TagID }}">{{ item.Name }}</option>
+        {% endfor %}
+    </select>
+    <input type="submit" />
+</form>
+
+<!-- add table which displays top games -->
+
+
+<!-- add buttons to view next/previous page of games -->
 
 {% endblock %}
