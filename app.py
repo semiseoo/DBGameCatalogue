@@ -33,37 +33,37 @@ class Database:
     def close(self):
         self.con.close()
 
-def getGamesList(self, sort, time, tagSelect, offset):
-    query = "SELECT g.GameID, g.Name, g.Rating, g.Price, GROUP_CONCAT(t.Name ORDER BY t.Name SEPARATOR ', ') AS Tags FROM Game as g LEFT JOIN GameTag as gt on g.GameID=gt.GameID LEFT JOIN Tag as t on gt.TagID=t.TagID GROUP BY g.GameID WHERE 1=1"
-    params = []
+    def getGamesList(self, sort, time, tagSelect, offset):
+        query = "SELECT g.GameID, g.Name, g.Rating, g.Price, GROUP_CONCAT(t.Name ORDER BY t.Name SEPARATOR ', ') AS Tags FROM Game as g LEFT JOIN GameTag as gt on g.GameID=gt.GameID LEFT JOIN Tag as t on gt.TagID=t.TagID GROUP BY g.GameID WHERE 1=1"
+        params = []
 
-    if sort == "Alphabetical":
-        query += " ORDER BY Name ASC"
-    elif sort == "TopRated":
-        query += " ORDER BY Rating DESC"
-    elif sort == "MostRecent":
-        query += " ORDER BY ReleaseDate DESC"
+        if sort == "Alphabetical":
+            query += " ORDER BY Name ASC"
+        elif sort == "TopRated":
+            query += " ORDER BY Rating DESC"
+        elif sort == "MostRecent":
+            query += " ORDER BY ReleaseDate DESC"
 
-    if time == "Today":
-        query += " AND ReleaseDate >= CURDATE()"
-    elif time == "ThisWeek":
-        query += " AND ReleaseDate >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)"
-    elif time == "ThisMonth":
-        query += " AND ReleaseDate >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)"
-    elif time == "ThisYear":
-        query += " AND ReleaseDate >= DATE_SUB(CURDATE(), INTERVAL 365 DAY)"
+        if time == "Today":
+            query += " AND ReleaseDate >= CURDATE()"
+        elif time == "ThisWeek":
+            query += " AND ReleaseDate >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)"
+        elif time == "ThisMonth":
+            query += " AND ReleaseDate >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)"
+        elif time == "ThisYear":
+            query += " AND ReleaseDate >= DATE_SUB(CURDATE(), INTERVAL 365 DAY)"
 
-    if tagSelect:
-        placeholders = ",".join(["%s"] * len(tagSelect))
-        query += f" AND Tag IN ({placeholders})"
-        params.extend(tagSelect)
+        if tagSelect:
+            placeholders = ",".join(["%s"] * len(tagSelect))
+            query += f" AND Tag IN ({placeholders})"
+            params.extend(tagSelect)
 
-    query += " LIMIT 50"
+        query += " LIMIT 50"
 
-    query += f" OFFSET {offset}"
+        query += f" OFFSET {offset}"
 
-    self.cur.execute(query, params)
-    return self.cur.fetchall()
+        self.cur.execute(query, params)
+        return self.cur.fetchall()
 
 
 @app.route("/")
