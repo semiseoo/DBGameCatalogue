@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Insert Data</h1>
+
+<h2>Add Developer</h2>
+<form method="POST" action="/add/developer">
+    <label>Name:</label>
+    <input type="text" name="Name" required>
+    <button type="submit">Add Developer</button>
+</form>
+
+<h2>Add Publisher</h2>
+<form method="POST" action="/add/publisher">
+    <label>Name:</label>
+    <input type="text" name="Name" required>
+    <button type="submit">Add Publisher</button>
+</form>
+
+<h2>Add Tag</h2>
+<form method="POST" action="/add/tag">
+    <label>Name:</label>
+    <input type="text" name="Name" required>
+    <button type="submit">Add Tag</button>
+</form>
+
+<h2>Add Game</h2>
+<form method="POST" action="/add/game">
+    <label>Name:</label>
+    <input type="text" name="Name" required>
+
+    <label>Description:</label>
+    <textarea name="Description"></textarea>
+
+    <label>Rating:</label>
+    <input type="number" step="0.1" name="Rating">
+
+    <label>Price:</label>
+    <input type="number" step="0.01" name="Price">
+
+    <label>Release Date:</label>
+    <input type="date" name="ReleaseDate">
+
+    <label>Developer:</label>
+    <select name="DeveloperID">
+        {% for d in developers %}
+            <option value="{{ d.DeveloperID }}">{{ d.Name }}</option>
+        {% endfor %}
+    </select>
+
+    <label>Publisher:</label>
+    <select name="PublisherID">
+        {% for p in publishers %}
+            <option value="{{ p.PublisherID }}">{{ p.Name }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">Add Game</button>
+</form>
+
+<h2>Add DLC</h2>
+<form method="POST" action="/add/dlc">
+    <label>Game:</label>
+    <select name="GameID">
+        {% for g in games %}
+            <option value="{{ g.GameID }}">{{ g.Name }}</option>
+        {% endfor %}
+    </select>
+
+    <label>Name:</label>
+    <input type="text" name="Name" required>
+
+    <label>Price:</label>
+    <input type="number" step="0.01" name="Price">
+
+    <button type="submit">Add DLC</button>
+</form>
+
+<h2>Add Game Tag</h2>
+<form method="POST" action="/add/gametag">
+    <label>Game:</label>
+    <select name="GameID">
+        {% for g in games %}
+            <option value="{{ g.GameID }}">{{ g.Name }}</option>
+        {% endfor %}
+    </select>
+
+    <label>Tag:</label>
+    <select name="TagID">
+        {% for t in tags %}
+            <option value="{{ t.TagID }}">{{ t.Name }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">Add Tag to Game</button>
+</form>
+
+
+
+{% endblock %}
