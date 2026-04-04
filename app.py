@@ -66,7 +66,16 @@ class Database:
 
         self.cur.execute(query, params)
         return self.cur.fetchall()
-
+    
+    def getGameAttributes(self, GameID):
+        query = f"SELECT g.GameID, g.Name, g.Description, g.Rating, g.Price, g.ReleaseDate, d.Name AS DeveloperName, p.Name AS PublisherName, GROUP_CONCAT(DISTINCT t.Name ORDER BY t.Name SEPARATOR ', ') AS Tags, GROUP_CONCAT(DISTINCT CONCAT(DLC.DLCID, ':', DLC.Name, ' ($', DLC.Price, ')') SEPARATOR ' | ') AS DLCs FROM Game as g LEFT JOIN Developer as d on g.DeveloperID=d.DeveloperID LEFT JOIN Publisher as p on g.PublisherID=p.PublisherID LEFT JOIN Gametag as gt on g.GameID=gt.GameID LEFT Join Tag as t on gt.TagID=t.TagID LEFT JOIN DLC on g.GameID=DLC.GameID WHERE GameID={GameID} GROUP BY g.GameID"
+        try:
+            self.cur.execute(query)
+            result = self.cur.fetchone()
+        except:
+            result = "failed to fetch game data"
+        
+        return result
 
 @app.route("/")
 def index():
@@ -150,8 +159,10 @@ def order():
 
 @app.route("/game/<int:GameID>") # Dynamically generate a homepage for each game using the gameID as page URL
 def gamepage(GameID):
-#    db = Database()
-    return render_template('gamepage.html', GameID=GameID)
+    db = Database()
+    gameData = db.getGameAttributes(GameID)
+    db.close()
+    return render_template('gamepage.html', gameData=gameData)
 
 if __name__ == "__main__":
         app.run(host="0.0.0.0", port=5000, debug=True)
