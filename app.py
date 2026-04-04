@@ -99,7 +99,8 @@ class Database:
 
     def insertDeveloper(self, name):
         try:
-            self.cur.execute(f"INSERT INTO Developer (Name) VALUES {name}")
+            query = "INSERT INTO Developer (Name) VALUES (%s)"
+            self.cur.execute(query, (name,))
             self.conn.commit()
             result = "success"
         except:
@@ -108,7 +109,8 @@ class Database:
     
     def insertPublisher(self, name):
         try:
-            self.cur.execute(f"INSERT INTO Publisher (Name) VALUES {name}")
+            query = "INSERT INTO Publisher (Name) VALUES (%s)"
+            self.cur.execute(query, (name,))
             self.conn.commit()
             result = "success"
         except:
@@ -117,7 +119,8 @@ class Database:
 
     def insertTag(self, name):
         try:
-            self.cur.execute(f"INSERT INTO Tag (Name) VALUES {name}")
+            query = "INSERT INTO Tag (Name) VALUES (%s)"
+            self.cur.execute(query, (name,))
             self.conn.commit()
             result = "success"
         except:
@@ -126,7 +129,8 @@ class Database:
     
     def insertGame(self, name, Description, DeveloperID, PublisherID, Rating, Price, ReleaseDate):
         try:
-            self.cur.execute(f"INSERT INTO Developer (Name, Description, DeveloperID, PublisherID, Rating, Price, ReleaseDate) VALUES {name}, {Description}, {DeveloperID}, {PublisherID}, {Rating}, {Price}, {ReleaseDate}")
+            query = "INSERT INTO Game (Name, Description, DeveloperID, PublisherID, Rating, Price, ReleaseDate) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+            self.cur.execute(query, (name, Description, DeveloperID, PublisherID, Rating, Price, ReleaseDate))
             self.conn.commit()
             result = "success"
         except:
@@ -136,7 +140,8 @@ class Database:
     
     def insertDLC(self, name, GameID, Price):
         try:
-            self.cur.execute(f"INSERT INTO DLC (Name, GameID, Price) VALUES {name}, {GameID}, {Price}")
+            query = "INSERT INTO DLC (Name, GameID, Price) VALUES (%s, %s, %s)"
+            self.cur.execute(query, (name, GameID, Price))
             self.conn.commit()
             result = "success"
         except:
@@ -145,7 +150,8 @@ class Database:
 
     def insertGametag(self, GameID, TagID):
         try:
-            self.cur.execute(f"INSERT INTO Gametag (GameID, TagID) VALUES {GameID}, {TagID}")
+            query = "INSERT INTO Gametag (GameID, TagID) VALUES (%s, %s)"
+            self.cur.execute(query, (GameID, TagID))
             self.conn.commit()
             result = "success"
         except:
