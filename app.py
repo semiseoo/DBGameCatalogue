@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 import pymysql
 import credentials
 
@@ -76,6 +76,82 @@ class Database:
             result = "failed to fetch game data"
         
         return result
+    
+    def selectDevelopers(self):
+        self.cur.execute("SELECT * FROM Developer")
+        developers = self.cur.fetchall()
+        return developers
+    
+    def selectPublishers(self):
+        self.cur.execute("SELECT * FROM Publisher")
+        publishers = self.cur.fetchall()
+        return publishers
+    
+    def selectGames(self):
+        self.cur.execute("SELECT * FROM Game")
+        games = self.cur.fetchall()
+        return games
+    
+    def selectTags(self):
+        self.cur.execute("SELECT * FROM Tag")
+        tags = self.cur.fetchall()
+        return tags
+
+    def insertDeveloper(self, name):
+        try:
+            self.cur.execute(f"INSERT INTO Developer (Name) VALUES {name}")
+            self.conn.commit()
+            result = "success"
+        except:
+            result = "Failure"
+        return result
+    
+    def insertPublisher(self, name):
+        try:
+            self.cur.execute(f"INSERT INTO Publisher (Name) VALUES {name}")
+            self.conn.commit()
+            result = "success"
+        except:
+            result = "Failure"
+        return result
+
+    def insertTag(self, name):
+        try:
+            self.cur.execute(f"INSERT INTO Tag (Name) VALUES {name}")
+            self.conn.commit()
+            result = "success"
+        except:
+            result = "Failure"
+        return result
+    
+    def insertGame(self, name, Description, DeveloperID, PublisherID, Rating, Price, ReleaseDate):
+        try:
+            self.cur.execute(f"INSERT INTO Developer (Name, Description, DeveloperID, PublisherID, Rating, Price, ReleaseDate) VALUES {name}, {Description}, {DeveloperID}, {PublisherID}, {Rating}, {Price}, {ReleaseDate}")
+            self.conn.commit()
+            result = "success"
+        except:
+            result = "Failure"
+        return result
+    
+    
+    def insertDLC(self, name, GameID, Price):
+        try:
+            self.cur.execute(f"INSERT INTO DLC (Name, GameID, Price) VALUES {name}, {GameID}, {Price}")
+            self.conn.commit()
+            result = "success"
+        except:
+            result = "Failure"
+        return result
+
+    def insertGametag(self, GameID, TagID):
+        try:
+            self.cur.execute(f"INSERT INTO Gametag (GameID, TagID) VALUES {GameID}, {TagID}")
+            self.conn.commit()
+            result = "success"
+        except:
+            result = "Failure"
+        return result
+
 
 @app.route("/")
 def index():
@@ -167,20 +243,14 @@ def gamepage(GameID):
 # BELOW THIS POINT IS SIMPLY PAGES TO ADD DATA TO THE DATABASE AND WILL NOT BE NECESSARY FOR THE FINAL PRODUCT
 @app.route("/admin")
 def adminPanel():
-    self.cur.execute("SELECT * FROM Developer")
-    developers = self.cur.fetchall()
-
-    self.cur.execute("SELECT * FROM Publisher")
-    publishers = self.cur.fetchall()
-
-    self.cur.execute("SELECT * FROM Game")
-    games = self.cur.fetchall()
-
-    self.cur.execute("SELECT * FROM Tag")
-    tags = self.cur.fetchall()
-
+    db = Database()
+    developers = db.selectDevelopers()
+    publishers = db.selectPublishers()
+    games = db.selectGames()
+    tags = db.selectTags()
+    db.close()
     return render_template(
-        "admin_add.html",
+        "admin.html",
         developers=developers,
         publishers=publishers,
         games=games,
@@ -189,27 +259,31 @@ def adminPanel():
 
 @app.route("/add/developer", methods=["POST"])
 def addDeveloper():
+    db = Database()
     name = request.form["Name"]
-    self.cur.execute(f"INSERT INTO Developer (Name) VALUES {name}")
-    self.conn.commit()
+    db.insertDeveloper(name)
+    db.close()
     return redirect("/admin")
 
 @app.route("/add/publisher", methods=["POST"])
 def addPublisher():
+    db = Database()
     name = request.form["Name"]
-    self.cur.execute(f"INSERT INTO Publisher (Name) VALUES {name}")
-    self.conn.commit()
+    db.insertPublisher(name)
+    db.close()
     return redirect("/admin")
 
 @app.route("/add/tag", methods=["POST"])
 def addTag():
+    db = Database()
     name = request.form["Name"]
-    self.cur.execute(f"INSERT INTO Tag (Name) VALUES {name}")
-    self.conn.commit()
+    db.insertTag(name)
+    db.close()
     return redirect("/admin")
 
 @app.route("/add/game", methods=["POST"])
 def addGame():
+    db = Database()
     name = request.form["Name"]
     Description = request.form["Description"]
     DeveloperID = request.form["DeveloperID"]
@@ -217,25 +291,27 @@ def addGame():
     Rating = request.form["Rating"]
     Price = request.form["Price"]
     ReleaseDate = request.form["ReleaseDate"]
-    self.cur.execute(f"INSERT INTO Developer (Name, Description, DeveloperID, PublisherID, Rating, Price, ReleaseDate) VALUES {name}, {Description}, {DeveloperID}, {PublisherID}, {Rating}, {Price}, {ReleaseDate}")
-    self.conn.commit()
+    db.insertGame(name, Description, DeveloperID, PublisherID, Rating, Price, ReleaseDate)
+    db.close()
     return redirect("/admin")
 
 @app.route("/add/dlc", methods=["POST"])
 def addDLC():
+    db = Database()
     name = request.form["Name"]
     GameID = request.form["GameID"]
     Price = request.form["Price"]
-    self.cur.execute(f"INSERT INTO Developer (Name, GameID, Price) VALUES {name}, {GameID}, {Price}")
-    self.conn.commit()
+    db.insertDLC(name, GameID, Price)
+    db.close()
     return redirect("/admin")
 
 @app.route("/add/gametag", methods=["POST"])
 def addGametag():
+    db = Database()
     GameID = request.form["GameID"]
     TagID = request.form["TagID"]
-    self.cur.execute(f"INSERT INTO Developer (Name, GameID, TagID) VALUES {name}, {GameID}, {TagID}")
-    self.conn.commit()
+    db.insertGametag(GameID, TagID)
+    db.close()
     return redirect("/admin")
 
 if __name__ == "__main__":
