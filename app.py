@@ -243,7 +243,7 @@ def gamepage(GameID):
     db = Database()
     gameData = db.getGameAttributes(GameID)
     Tags = gameData["Tags"].split(',')
-    DLCArray = gameData["DLC"].split(',')
+    DLCArray = gameData["DLCs"].split(',')
     DLC = []
     for item in DLCArray:
         DLCID, Name, Price = item.split(":")
