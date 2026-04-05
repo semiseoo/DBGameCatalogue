@@ -46,9 +46,11 @@
                         Released: {{ cell.ReleaseDate }}<br>
                         Price: {{ cell.Price }}<br>
                         Tags:
-                        {% for tag in cell.Tags.split(', ') %}
-                           ({{ tag }})
-                        {% endfor %}
+                        {% if cell.Tags is not None %}
+                            {% for tag in cell.Tags.split(', ') %}
+                                ({{ tag }})
+                            {% endfor %}
+                        {% endif %}
                     {% else %}
                         <!-- empty cell -->
                     {% endif %}
