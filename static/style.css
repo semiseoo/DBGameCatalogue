@@ -76,6 +76,9 @@ opacity: 0.7;
 }
 
 .gamepage-tags-box {
+    display: inline-block;
+    width: auto;
+    gap: 5px;
     border-radius: 3px;
     background-color: orange;
     padding: 3px;
