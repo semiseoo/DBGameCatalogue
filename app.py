@@ -241,15 +241,13 @@ def order():
 @app.route("/game/<int:GameID>") # Dynamically generate a homepage for each game using the gameID as page URL
 def gamepage(GameID):
     db = Database()
-    Tags = ""
-    DLC = ""
     gameData = db.getGameAttributes(GameID)
-    # Tags = gameData.Tags.split(',')
-    # DLCArray = gameData.DLC.split(',')
-    # DLC = []
-    # for item in DLCArray:
-    #     DLCID, Name, Price = item.split(":")
-    #     DLC.append({"DLCID": DLCID, "Name": Name, "Price": Price})
+    Tags = gameData["Tags"].split(',')
+    DLCArray = gameData["DLC"].split(',')
+    DLC = []
+    for item in DLCArray:
+        DLCID, Name, Price = item.split(":")
+        DLC.append({"DLCID": DLCID, "Name": Name, "Price": Price})
     db.close()
     return render_template('gamepage.html', gameData=gameData, Tags=Tags, DLC=DLC)
 
