@@ -90,6 +90,8 @@ opacity: 0.7;
     min-height: 20px;
     min-width: 50px;
     padding: 12px;
+    border: 1px;
+    border-color: black;
 }
 
 body {
