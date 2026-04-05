@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="gamepage-header">
+    <h1>{{ gameData.Name }}</h1>
+</div><br>
 
-<h1>gameData.Name</h1><br>
 {{ gameData.Description }}<br>
 {{ gameData.Rating }}<br>
 {{ gameData.Price }}<br>
