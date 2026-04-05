@@ -68,12 +68,12 @@ class Database:
         return self.cur.fetchall()
     
     def getGameAttributes(self, GameID):
-        query = f"SELECT g.GameID, g.Name, g.Description, g.Rating, g.Price, g.ReleaseDate, d.Name AS DeveloperName, p.Name AS PublisherName, GROUP_CONCAT(DISTINCT t.Name ORDER BY t.Name SEPARATOR ', ') AS Tags, GROUP_CONCAT(DISTINCT CONCAT(DLC.DLCID, ':', DLC.Name, ' ($', DLC.Price, ')') SEPARATOR ' | ') AS DLCs FROM Game as g LEFT JOIN Developer as d on g.DeveloperID=d.DeveloperID LEFT JOIN Publisher as p on g.PublisherID=p.PublisherID LEFT JOIN Gametag as gt on g.GameID=gt.GameID LEFT Join Tag as t on gt.TagID=t.TagID LEFT JOIN DLC on g.GameID=DLC.GameID WHERE GameID={GameID} GROUP BY g.GameID"
+        query = f"SELECT g.GameID, g.Name, g.Description, g.Rating, g.Price, g.ReleaseDate, d.Name AS DeveloperName, p.Name AS PublisherName, GROUP_CONCAT(DISTINCT t.Name ORDER BY t.Name SEPARATOR ',') AS Tags, GROUP_CONCAT(DISTINCT CONCAT(DLC.DLCID, ':', DLC.Name, ':', DLC.Price) SEPARATOR ',') AS DLCs FROM Game as g LEFT JOIN Developer as d on g.DeveloperID=d.DeveloperID LEFT JOIN Publisher as p on g.PublisherID=p.PublisherID LEFT JOIN Gametag as gt on g.GameID=gt.GameID LEFT Join Tag as t on gt.TagID=t.TagID LEFT JOIN DLC on g.GameID=DLC.GameID WHERE g.GameID={GameID} GROUP BY g.GameID"
         try:
             self.cur.execute(query)
             result = self.cur.fetchone()
-        except Exception as e:
-            result = e
+        except:
+            result = "Failed to fetch game data"
         
         return result
     
@@ -242,8 +242,14 @@ def order():
 def gamepage(GameID):
     db = Database()
     gameData = db.getGameAttributes(GameID)
+    Tags = gameData.Tags.split(',')
+    DLCArray = gamedata.DLC.split(',')
+    DLC = []
+    for item in DLCArray:
+        DLCID, Name, Price = item.split(":")
+        DLC.append({"DLCID": DLCID, "Name": Name, "Price": Price})
     db.close()
-    return render_template('gamepage.html', gameData=gameData, GameID=GameID)
+    return render_template('gamepage.html', gameData=gameData, Tags=Tags, DLC=DLC)
 
 # BELOW THIS POINT IS SIMPLY PAGES TO ADD DATA TO THE DATABASE AND WILL NOT BE NECESSARY FOR THE FINAL PRODUCT
 @app.route("/admin")
