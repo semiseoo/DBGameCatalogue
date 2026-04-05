@@ -34,7 +34,7 @@ class Database:
         self.con.close()
 
     def getGamesList(self, sort, time, tagSelect, offset):
-        query = "SELECT g.GameID, g.Name, g.Rating, g.Price, GROUP_CONCAT(t.Name ORDER BY t.Name SEPARATOR ', ') AS Tags FROM Game as g LEFT JOIN Gametag as gt on g.GameID=gt.GameID LEFT JOIN Tag as t on gt.TagID=t.TagID WHERE 1=1"
+        query = "SELECT g.GameID, g.Name, g.Rating, g.Price, g.ReleaseDate, GROUP_CONCAT(t.Name ORDER BY t.Name SEPARATOR ', ') AS Tags FROM Game as g LEFT JOIN Gametag as gt on g.GameID=gt.GameID LEFT JOIN Tag as t on gt.TagID=t.TagID WHERE 1=1"
         params = []
 
         if time == "Today":

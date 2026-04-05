@@ -41,10 +41,12 @@
             {% for cell in row %}
                 <td>
                     {% if cell %}
-                        {{ cell.Name }}<br>
+                        <a href="/game/{{ cell.GameID }}">{{ cell.Name }}</a><br>
                         Rating: {{ cell.Rating }}<br>
                         Released: {{ cell.ReleaseDate }}<br>
-                        Price: {{ cell.Price }}
+                        Price: {{ cell.Price }}<br>
+                        {% for tag in cell.Tags %}
+                           7 ({{ tag }})
                     {% else %}
                         <!-- empty cell -->
                     {% endif %}
