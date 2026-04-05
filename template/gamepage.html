@@ -4,15 +4,38 @@
 <div class="gamepage-header">
     <h1>{{ gameData.Name }}</h1>
 </div><br>
-
-{{ gameData.Description }}<br>
-{{ gameData.Rating }}<br>
-{{ gameData.Price }}<br>
-{{ gameData.ReleaseDate }}<br>
-{{ gameData.DeveloperName }}<br>
-{{ gameData.PublisherName }}<br>
-{{ Tags }}<br>
-{{ DLC }}<br>
-<hr>
-{{ gameData }}
+<table class="gamepage-table">
+    <tr>
+        <td class="gamepage-table-label"><h3>Description: </h3></td>
+        <td class="gamepage-table-item">{{ gameData.Description }}</td>
+    </tr>
+    <tr>
+        <td class="gamepage-table-label"><h3>Rating: </h3></td>
+        <td class="gamepage-table-item">{{ gameData.Rating }}</td>
+    </tr>
+    <tr>
+        <td class="gamepage-table-label"><h3>Price: </h3></td>
+        <td class="gamepage-table-item">{{ gameData.Price }}</td>
+    </tr>
+    <tr>
+        <td class="gamepage-table-label"><h3>Release Date: </h3></td>
+        <td class="gamepage-table-item">{{ gameData.ReleaseDate }}</td>
+    </tr>
+    <tr>
+        <td class="gamepage-table-label"><h3>Developer: </h3></td>
+        <td class="gamepage-table-item">{{ gameData.DeveloperName }}</td>
+    </tr>
+    <tr>
+        <td class="gamepage-table-label"><h3>Publisher: </h3></td>
+        <td class="gamepage-table-item">{{ gameData.PublisherName }}</td>
+    </tr>
+    <tr>
+        <td class="gamepage-table-label"><h3>Tags: </h3></td>
+        <td class="gamepage-table-item">{{ Tags }}</td>
+    </tr>
+    <tr>
+        <td class="gamepage-table-label"><h3>DLC: </h3></td>
+        <td class="gamepage-table-item">{{ DLC }}</td>
+    </tr>
+</table>
 {% endblock %}
