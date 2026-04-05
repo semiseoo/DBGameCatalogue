@@ -32,22 +32,26 @@
     <tr>
         <td class="gamepage-table-label"><h3>Tags: </h3></td>
         <td class="gamepage-table-item">
-            {% for item in Tags %}
-                <div class="gamepage-tags-box">
-                    <strong>{{ item }}</strong>
-                </div>
-            {% endfor %}
+            {% if Tags %}
+                {% for item in Tags %}
+                    <div class="gamepage-tags-box">
+                        <strong>{{ item }}</strong>
+                    </div>
+                {% endfor %}
+            {% endif %}
         </td>
     </tr>
     <tr>
         <td class="gamepage-table-label"><h3>DLC: </h3></td>
         <td class="gamepage-table-item">
-            {% for item in DLC %}
-                <div class="gamepage-dlc-box">
-                    <strong>{{ item.Name }}</strong><br>
-                    Price: ${{ item.Price }}
-                </div>
-            {% endfor %}
+            {% if DLC %}
+                {% for item in DLC %}
+                    <div class="gamepage-dlc-box">
+                        <strong>{{ item.Name }}</strong><br>
+                        Price: ${{ item.Price }}
+                    </div>
+                {% endfor %}
+            {% endif %}
         </td>
     </tr>
 </table>
