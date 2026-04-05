@@ -242,12 +242,18 @@ def order():
 def gamepage(GameID):
     db = Database()
     gameData = db.getGameAttributes(GameID)
-    Tags = gameData["Tags"].split(',')
-    DLCArray = gameData["DLCs"].split(',')
-    DLC = []
-    for item in DLCArray:
-        DLCID, Name, Price = item.split(":")
-        DLC.append({"DLCID": DLCID, "Name": Name, "Price": Price})
+    if gameData["Tags"]:
+        Tags = gameData["Tags"].split(',')
+    else:
+        Tags = ""
+    if gameData["DLCs"]:
+        DLCArray = gameData["DLCs"].split(',')
+        DLC = []
+        for item in DLCArray:
+            DLCID, Name, Price = item.split(":")
+            DLC.append({"DLCID": DLCID, "Name": Name, "Price": Price})
+    else:
+        DLC = ""
     db.close()
     return render_template('gamepage.html', gameData=gameData, Tags=Tags, DLC=DLC)
 
