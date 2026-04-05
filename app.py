@@ -241,8 +241,9 @@ def order():
 @app.route("/game/<int:GameID>") # Dynamically generate a homepage for each game using the gameID as page URL
 def gamepage(GameID):
     db = Database()
+    Tags = ""
     gameData = db.getGameAttributes(GameID)
-    Tags = gameData.Tags.split(',')
+    # Tags = gameData.Tags.split(',')
     DLCArray = gamedata.DLC.split(',')
     DLC = []
     for item in DLCArray:
