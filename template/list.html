@@ -45,6 +45,7 @@
                         Rating: {{ cell.Rating }}<br>
                         Released: {{ cell.ReleaseDate }}<br>
                         Price: {{ cell.Price }}<br>
+                        Tags:
                         {% for tag in cell.Tags.split(', ') %}
                            ({{ tag }})
                         {% endfor %}

@@ -72,8 +72,8 @@ class Database:
         try:
             self.cur.execute(query)
             result = self.cur.fetchone()
-        except:
-            result = "failed to fetch game data"
+        except Exception as e:
+            result = e
         
         return result
     
@@ -136,8 +136,7 @@ class Database:
         except:
             result = "Failure"
         return result
-    
-    
+      
     def insertDLC(self, name, GameID, Price):
         try:
             query = "INSERT INTO DLC (Name, GameID, Price) VALUES (%s, %s, %s)"
@@ -244,7 +243,7 @@ def gamepage(GameID):
     db = Database()
     gameData = db.getGameAttributes(GameID)
     db.close()
-    return render_template('gamepage.html', gameData=gameData)
+    return render_template('gamepage.html', gameData=gameData, GameID=GameID)
 
 # BELOW THIS POINT IS SIMPLY PAGES TO ADD DATA TO THE DATABASE AND WILL NOT BE NECESSARY FOR THE FINAL PRODUCT
 @app.route("/admin")
