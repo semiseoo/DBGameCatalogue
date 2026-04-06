@@ -1,8 +1,12 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, session
 import pymysql
-import credentials
+import credentials 
+
 
 app= Flask(__name__, template_folder='template')
+
+app.secret_key = "supersecretkey"
+
 
 class Database:
     def __init__(self):
@@ -163,15 +167,49 @@ def index():
     db = Database()
     return render_template('index.html')
 
-@app.route("/login")
-def login():
-    db = Database()
-    return render_template('login.html')
-
-@app.route("/register")
+@app.route("/register", methods=["GET","POST"])
 def register():
     db = Database()
-    return render_template('register.html')
+
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+        email = request.form["email"]
+
+        query = "INSERT INTO user (Username, Password, Email) VALUES (%s, %s, %s)"
+        db.cur.execute(query, (username, password, email))
+        db.con.commit()
+
+        db.close()
+
+        return redirect("/login")
+
+    return render_template("register.html")
+
+@app.route("/login", methods=["GET","POST"])
+def login():
+
+    db = Database()
+
+    if request.method == "POST":
+
+        username = request.form["username"]
+        password = request.form["password"]
+
+        query = "SELECT * FROM user WHERE Username=%s AND Password=%s"
+        db.cur.execute(query, (username, password))
+
+        user = db.cur.fetchone()
+
+        db.close()
+
+        if user:
+            session["username"] = user["Username"]
+            return redirect("/")
+        else:
+            return "Invalid login"
+
+    return render_template("login.html")
 
 @app.route("/list", methods=['GET', 'POST'])
 def list():

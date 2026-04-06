@@ -246,5 +246,79 @@ html,body{
 }
 
 .login-form button:hover{
-    background-color: #1D3050
+    background-color: #1D3050;
+}
+
+.overlay{
+    height: 50vh;
+
+    background:
+        linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
+        url("/static/images/gamer.png");
+
+    background-size: cover;
+    background-position: center;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.overlay-text{
+    color: #9bf3fd;
+    padding: 20px;
+}
+
+.overlay-text h1{
+    font-size: 3rem;
+    margin: 0;
+}
+
+.overlay-text p{
+    font-size: 1.5rem;
+}
+
+
+.register{
+    width: 350px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #1a1a1a;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px #1a1a1a;
+    color: #fff;
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.register input{
+    width: 80%;
+    padding: 12px 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 6px;
+    outline: none;
+    font-size: 16px;
+}
+
+.register input:focus{
+    border: 2px solid #214480;
+}
+
+.register button{
+    width: 85%;
+    padding: 12px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 6px;
+    background-color: #214480;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.register button:hover{
+    background-color: #1D3050;
 }

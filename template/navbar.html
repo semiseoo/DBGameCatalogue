@@ -18,5 +18,14 @@
                     <img src="{{ url_for('static', filename='DBApp_icon/user.svg') }}" alt="user">
                 </a>
         </div>
+        <div class="navbar-right">
+
+        {% if session.username %}
+            Welcome, {{ session.username }}
+        {% else %}
+            <a href="/login">Login</a>
+        {% endif %}
+
+</div>
     </div>
 </nav>
