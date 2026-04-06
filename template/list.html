@@ -10,7 +10,7 @@
 <h1>Game Catalogue</h1>
 
 <!-- add filter bar to sort game list by tags/alphabetical/etc -->
-<form method="POST">
+<form method="POST" class="filter-form">
     <label for="cars">Sort By:</label>
     <select id="sort" name="sort">
         <option value="Alphabetical">Alphabetical</option>
@@ -35,21 +35,25 @@
 </form>
 
 <!-- add table which displays top games -->
-<table border="1">
+<table class="gamepage-table">
     {% for row in grid %}
         <tr>
             {% for cell in row %}
                 <td>
                     {% if cell %}
+                    <div class="game-card">
                         <a href="/game/{{ cell.GameID }}">{{ cell.Name }}</a><br>
                         Rating: {{ cell.Rating }}<br>
                         Released: {{ cell.ReleaseDate }}<br>
                         Price: {{ cell.Price }}<br>
+                        <div class="tags">
                         Tags:
                         {% if cell.Tags %}
                             {% for tag in cell.Tags.split(', ') %}
                                 ({{ tag }})
                             {% endfor %}
+                        </div>
+                    </div>
                         {% endif %}
                     {% else %}
                         <!-- empty cell -->
@@ -62,12 +66,12 @@
 
 
 <!-- add buttons to view next/previous page of games -->
-<a href="/list?page={{ page - 1 }}" {% if page == 1 %}style="visibility:hidden"{% endif %}>
+<a href="/list?page={{ page - 1 }}" class = "pagination-btn"{% if page == 1 %}style="visibility:hidden"{% endif %}>
     Previous Page
 </a>
 
-<a href="/list?page={{ page + 1 }}" {% if lastPage == True %}style="visibility:hidden"{% endif %}>
+<a href="/list?page={{ page + 1 }}"  class = "pagination-btn" {% if lastPage == True %}style="visibility:hidden"{% endif %}> 
     Next Page
 </a>
 
-{% endblock %}
+{% endblock %}  

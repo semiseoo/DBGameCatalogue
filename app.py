@@ -160,17 +160,17 @@ class Database:
 
 @app.route("/")
 def index():
-#    db = Database()
+    db = Database()
     return render_template('index.html')
 
 @app.route("/login")
 def login():
-#    db = Database()
+    db = Database()
     return render_template('login.html')
 
 @app.route("/register")
 def register():
-#    db = Database()
+    db = Database()
     return render_template('register.html')
 
 @app.route("/list", methods=['GET', 'POST'])
@@ -235,7 +235,7 @@ def list():
 
 @app.route("/order")
 def order():
-#    db = Database()
+    db = Database()
     return render_template('order.html')
 
 @app.route("/game/<int:GameID>") # Dynamically generate a homepage for each game using the gameID as page URL
