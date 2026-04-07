@@ -176,7 +176,7 @@ def register():
         password = request.form["password"]
         email = request.form["email"]
 
-        query = "INSERT INTO user (Username, Password, Email) VALUES (%s, %s, %s)"
+        query = "INSERT INTO User (Username, Password, Email) VALUES (%s, %s, %s)"
         db.cur.execute(query, (username, password, email))
         db.con.commit()
 
@@ -196,7 +196,7 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
 
-        query = "SELECT * FROM user WHERE Username=%s AND Password=%s"
+        query = "SELECT * FROM User WHERE Username=%s AND Password=%s"
         db.cur.execute(query, (username, password))
 
         user = db.cur.fetchone()
