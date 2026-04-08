@@ -494,7 +494,7 @@ def delete_review():
 
     userID = user["UserID"]
 
-    delete = "DELETE FROM review WHERE UserID=%s AND GameID=%s"
+    delete = "DELETE FROM Review WHERE UserID=%s AND GameID=%s"
     db.cur.execute(delete, (userID, gameID))
     db.con.commit()
 
