@@ -10,21 +10,15 @@
         <div class="order-summary">
             <h2>Your Order</h2>
             <div id="cart-items">
-                <div class="cart-item">
-                    <span>Cyberpunk 2077</span>
-                    <span>$39.99</span>
-                </div>
-                <div class="cart-item">
-                    <span>Elden Ring</span>
-                    <span>$49.99</span>
-                </div>
-                <div class="cart-item">
-                    <span>Hades II</span>
-                    <span>$29.99</span>
-                </div>
+                {{ for item in cartItems }}
+                    <div class="cart-item">
+                        <span>{{ item.Name }}</span>
+                        <span>{{ item.Price }}</span>
+                    </div>
+                {{ endfor }}
             </div>
             <div class="total">
-                <strong>Total: $119.97</strong>
+                <strong>Total: ${{ totalCost }}</strong>
             </div>
         </div>
 

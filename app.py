@@ -1,12 +1,14 @@
 from flask import Flask, render_template, request, redirect, session
 import pymysql
 import credentials 
+import datetime
 
 
 app= Flask(__name__, template_folder='template')
 
 app.secret_key = "supersecretkey"
 
+cart = session.get("cart", [])
 
 class Database:
     def __init__(self):
@@ -161,6 +163,29 @@ class Database:
             result = "Failure"
         return result
 
+    def createPurchase(self, UserID):
+        try:
+            query = "INSERT INTO Purchase (UserID, Date) Values (%s, NOW())"
+            self.cur.execute(query, (UserID,))
+            result = "Success"
+        except:
+            result = "Failure"
+        return result
+    
+    def addPurchaseItem(self, PurchaseID, ID, Price, Type):
+        try:
+            if type == "Game":
+                query = "INSERT INTO PurchaseItem (PurchaseID, GameID, Price) Values (%s, %s, %s)"
+                self.cur.execute(query, (PurchaseID, ID, Price))
+            elif type == "DLC":
+                query = "INSERT INTO PurchaseItem (PurchaseID, DLCID, Price) Values (%s, %s, %s)"
+                self.cur.execute(query, (PurchaseID, ID, Price))
+            else:
+                return "Failure"
+            result = "Success"
+        except:
+            result = "Failure"
+        return result
 
 @app.route("/")
 def index():
@@ -205,6 +230,7 @@ def login():
 
         if user:
             session["username"] = user["Username"]
+            session["UserID"] = user["UserID"]
             return redirect("/")
         else:
             return "Invalid login"
@@ -274,7 +300,25 @@ def list():
 @app.route("/order")
 def order():
     db = Database()
-    return render_template('order.html')
+    cart = session.get("cart", [])
+    cartItems = []
+    totalCost = 0.0
+
+    for item in cart:
+        if item["type"] == "Game":
+            query = "SELECT * FROM Game WHERE GameID=%s"
+        elif item["type"] == "DLC":
+            query = "SELECT * FROM DLC WHERE DLCID=%s"
+        else:
+            continue
+        
+        db.cur.execute(query, (item["ID"],))
+        result = db.cur.fetchone()
+        if result:
+            totalCost += float(result["Price"])
+            cartItems.append(result)
+    db.close()
+    return render_template('order.html', cartItems=cartItems, totalCost=totalCost)
 
 @app.route("/game/<int:GameID>") # Dynamically generate a homepage for each game using the gameID as page URL
 def gamepage(GameID):
@@ -294,6 +338,22 @@ def gamepage(GameID):
         DLC = ""
     db.close()
     return render_template('gamepage.html', gameData=gameData, Tags=Tags, DLC=DLC)
+
+@app.route("/game/<int:GameID>/cart")
+def gamepage(GameID):
+    cart = session.get("cart", [])
+    item = {"type": "Game", "ID": GameID}
+    cart.append(item)
+    session["cart"] = cart
+    return redirect("/list")
+
+@app.route("/dlc/<int:DLCID>/cart")
+def gamepage(DLCID):
+    cart = session.get("cart", [])
+    item = {"type": "DLC", "ID": DLCID}
+    cart.append(item)
+    session["cart"] = cart
+    return redirect("/list")
 
 # BELOW THIS POINT IS SIMPLY PAGES TO ADD DATA TO THE DATABASE AND WILL NOT BE NECESSARY FOR THE FINAL PRODUCT
 @app.route("/admin")
