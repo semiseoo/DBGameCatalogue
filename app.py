@@ -170,7 +170,8 @@ class Database:
             purchaseID = self.cur.fetchone()[0]
 
             return purchaseID
-        except:
+        except Exception as e:
+            print(e)
             return None
 
     
