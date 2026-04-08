@@ -165,7 +165,7 @@ class Database:
         try:
             query = "INSERT INTO Purchase (UserID, Date) Values (%s, NOW())"
             self.cur.execute(query, (UserID,))
-
+            self.con.commit()
             self.cur.execute("SELECT LAST_INSERT_ID()")
             purchaseID = self.cur.fetchone()[0]
 
@@ -180,9 +180,11 @@ class Database:
             if type == "Game":
                 query = "INSERT INTO PurchaseItem (PurchaseID, GameID, Price) Values (%s, %s, %s)"
                 self.cur.execute(query, (PurchaseID, ID, Price))
+                self.con.commit()
             elif type == "DLC":
                 query = "INSERT INTO PurchaseItem (PurchaseID, DLCID, Price) Values (%s, %s, %s)"
                 self.cur.execute(query, (PurchaseID, ID, Price))
+                self.con.commit()
             else:
                 return "Failure"
             result = "Success"
