@@ -168,8 +168,6 @@ class Database:
             purchaseID = self.cur.lastrowid
             self.con.commit()
 
-            purchaseID = self.cur.fetchone()[0]
-
             return purchaseID
         except Exception as e:
             print(e)
