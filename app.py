@@ -197,7 +197,8 @@ class Database:
             query = "SELECT u.username, r.StarRating, r.Message FROM Reviews as r Left JOIN User as u on r.UserID=u.UserID WHERE r.GameID=(%s)"
             self.cur.execute(query, (GameID,))
             result = "Success"
-        except:
+        except Exception as e:
+            print(e)
             result = "Failure"
         return result
 
