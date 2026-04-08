@@ -191,6 +191,15 @@ class Database:
             print(e)
             return "Failure"
         return result
+    
+    def getReviews(self, GameID):
+        try:
+            query = "SELECT u.username, r.StarRating, r.Message FROM Reviews as r Left JOIN User as u on r.UserID=u.UserID WHERE r.GameID=(%s)"
+            self.cur.execute(query, (GameID,))
+            result = "Success"
+        except:
+            result = "Failure"
+        return result
 
 @app.route("/")
 def index():
@@ -353,7 +362,10 @@ def gamepage(GameID):
     else:
         DLC = ""
     db.close()
-    return render_template('gamepage.html', gameData=gameData, Tags=Tags, DLC=DLC)
+
+    reviews = db.getReviews(GameID)
+
+    return render_template('gamepage.html', gameData=gameData, Tags=Tags, DLC=DLC, reviews=reviews)
 
 @app.route("/cart/<int:GameID>/game")
 def cartGame(GameID):

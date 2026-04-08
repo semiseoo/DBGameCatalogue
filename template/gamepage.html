@@ -92,4 +92,15 @@
         </td>
     </tr>
 </table>
+<table>
+    {% if reviews %}
+        {% for item in reviews %}
+            <tr>
+                <td>{{ item.username }}</td>
+                <td>{{ item.StarRating }}</td>
+                <td>{{ item.Message }}</td>
+            </tr>
+        {% endfor %}
+    {% endif %}
+</table>
 {% endblock %}
