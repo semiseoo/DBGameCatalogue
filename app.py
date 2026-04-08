@@ -332,6 +332,7 @@ def order():
                 else:
                     db.addPurchaseItem(purchaseID, item["GameID"], item["Price"], "Game")
         session["cart"] = []
+        return redirect("/order")
     db.close()
     return render_template('order.html', cartItems=cartItems, totalCost=totalCost)
 
