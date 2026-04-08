@@ -79,14 +79,14 @@ opacity: 0.7;
 }
 
 .gamepage-table-label {
-    width: 30%;
+    width: 125px;
     height: 100px;
     background-color: aquamarine;
     padding-right: 12px;
 }
 
 .gamepage-table-item {
-    width: 70%;
+    width: 100%;
     height: 100px;
     background-color: aliceblue;
     padding-left: 12px;
