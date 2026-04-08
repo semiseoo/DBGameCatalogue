@@ -14,9 +14,9 @@
                     <div class="cart-item">
                         <span>{{ item.Name }}</span>
                         <span>{{ item.Price }}</span>
-                        {% if item.GameID %}
+                        {% if item.GameID is not none %}
                             <a href="/rmcart/{{ item.GameID }}/game">[-]</a>
-                        {% elif item.DLCID %}
+                        {% elif item.DLCID is not none %}
                             <a href="/rmcart/{{ item.DLCID }}/dlc">[-]</a>
                         {% endif %}
                     </div>
