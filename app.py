@@ -194,13 +194,13 @@ class Database:
     
     def getReviews(self, GameID):
         try:
-            query = "SELECT u.username, r.StarRating, r.Message FROM Reviews as r Left JOIN User as u on r.UserID=u.UserID WHERE r.GameID=(%s)"
+            query = "SELECT u.username, r.StarRating, r.Message FROM Reviews as r Left JOIN User as u on r.UserID=u.UserID WHERE r.GameID=(%s) LIMIT 50"
             self.cur.execute(query, (GameID,))
-            result = "Success"
+            reviews = self.cur.fetchall()
+            return reviews
         except Exception as e:
             print(e)
-            result = "Failure"
-        return result
+        return None
 
 @app.route("/")
 def index():
