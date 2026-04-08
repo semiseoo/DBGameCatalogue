@@ -357,7 +357,10 @@ def cartDLC(DLCID):
 @app.route("/cart/<int:ID>/remove")
 def cartRemove(ID):
     cart = session.get("cart", [])
-    cart = [item for item in cart if item["ID"] != ID]
+    for item in cart:
+        if item["ID"] == 1:
+            cart.remove(item)
+            break
     session["cart"] = cart
     return redirect("/order")
 
