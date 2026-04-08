@@ -378,7 +378,7 @@ def gamepage(GameID):
 
     db.close()
 
-    return render_template('gamepage.html', gameData=gameData, Tags=Tags, DLC=DLC, reviews=reviews)
+    return render_template('gamepage.html', GameID=GameID, gameData=gameData, Tags=Tags, DLC=DLC, reviews=reviews)
 
 @app.route("/cart/<int:GameID>/game")
 def cartGame(GameID):
