@@ -194,7 +194,7 @@ class Database:
     
     def getReviews(self, GameID):
         try:
-            query = "SELECT u.username, r.StarRating, r.Message FROM Review as r Left JOIN User as u on r.UserID=u.UserID WHERE r.GameID=(%s) LIMIT 50"
+            query = "SELECT u.UserID, u.username, r.StarRating, r.Message FROM Review as r Left JOIN User as u on r.UserID=u.UserID WHERE r.GameID=(%s) LIMIT 50"
             self.cur.execute(query, (GameID,))
             reviews = self.cur.fetchall()
             return reviews

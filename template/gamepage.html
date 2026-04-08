@@ -99,6 +99,10 @@
                 <td class="gamepage-table-label" style="width: fit-content;">User: {{ item.username }}</td>
                 <td class="gamepage-table-label" style="background-color: aqua; width: fit-content;">Star Rating: {{ item.StarRating }}</td>
                 <td style="width: 100%; background-color: white;">{{ item.Message }}</td>
+                {% if item.UserID == session.UserID %}
+                    <td><button>Edit review</button></td>
+                    <td><button>Delete review</button></td>
+                {% endif %}
             </tr>
         {% else %}
             <tr><td><H5>No Reviews</H5></td></tr>
