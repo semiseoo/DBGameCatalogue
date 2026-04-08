@@ -358,7 +358,7 @@ def cartDLC(DLCID):
 def cartRemove(ID):
     cart = session.get("cart", [])
     for item in cart:
-        if item["ID"] == 1:
+        if item["ID"] == ID:
             cart.remove(item)
             break
     session["cart"] = cart
