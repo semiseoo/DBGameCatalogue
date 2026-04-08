@@ -165,12 +165,16 @@ class Database:
         try:
             query = "INSERT INTO Purchase (UserID, Date) Values (%s, NOW())"
             self.cur.execute(query, (UserID,))
-            result = "Success"
+
+            self.cur.execute("SELECT LAST_INSERT_ID()")
+            purchaseID = self.cur.fetchone()[0]
+
+            return purchaseID
         except:
-            result = "Failure"
-        return result
+            return None
+
     
-    def addPurchaseItem(self, PurchaseID, ID, Price, Type):
+    def addPurchaseItem(self, PurchaseID, ID, Price, type):
         try:
             if type == "Game":
                 query = "INSERT INTO PurchaseItem (PurchaseID, GameID, Price) Values (%s, %s, %s)"
@@ -295,7 +299,7 @@ def list():
     db.close()
     return render_template('list.html', tags=tags, grid=grid, page=page, lastPage=lastPage)
 
-@app.route("/order")
+@app.route("/order", methods=['POST'])
 def order():
     db = Database()
     cart = session.get("cart", [])
@@ -315,6 +319,15 @@ def order():
         if result:
             totalCost += float(result["Price"])
             cartItems.append(result)
+
+    if request.method == "POST":
+        purchaseID = db.createPurchase(session["UserID"])
+        if purchaseID:
+            for item in cartItems:
+                if "DLCID" in item:
+                    db.addPurchaseItem(purchaseID, item["DLCID"], item["Price"], "DLC")
+                else:
+                    db.addPurchaseItem(purchaseID, item["GameID"], item["Price"], "Game")
     db.close()
     return render_template('order.html', cartItems=cartItems, totalCost=totalCost)
 
