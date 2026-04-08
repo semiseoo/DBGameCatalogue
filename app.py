@@ -406,6 +406,38 @@ def adminPanel():
         tags=tags
     )
 
+#ALLOWS USER REVIEWS
+@app.route("/add_review", methods=["POST"])
+def add_review():
+
+    if "username" not in session:
+        return redirect("/login")
+
+    db = Database()
+
+    username = session["username"]
+    gameID = request.form["gameID"]
+    rating = request.form["rating"]
+    reviewText = request.form["reviewText"]
+
+    query = "SELECT UserID FROM user WHERE Username=%s"
+    db.cur.execute(query, (username,))
+    user = db.cur.fetchone()
+
+    userID = user["UserID"]
+
+    insert = """
+    INSERT INTO review (UserID, GameID, StarRating, Message)
+    VALUES (%s, %s, %s, %s)
+    """
+
+    db.cur.execute(insert, (userID, gameID, rating, reviewText))
+    db.con.commit()
+
+    db.close()
+
+    return redirect(request.referrer)
+
 @app.route("/add/developer", methods=["POST"])
 def addDeveloper():
     db = Database()
