@@ -201,6 +201,17 @@ class Database:
         except Exception as e:
             print(e)
         return None
+    
+    def editReview(self, GameID, UserID, stars, message):
+        try:
+            query = "UPDATE Reviews SET StarRating = %s, Message = %s WHERE GameID = %s AND UserID = %s"
+            self.cur.execute(query, (stars, message, GameID, UserID))
+            self.con.commit()
+            result = "Success"
+        except Exception as e:
+            print(e)
+            result = "Failure"
+        return result
 
 @app.route("/")
 def index():
@@ -405,7 +416,18 @@ def rmcartDLC(ID):
     session["cart"] = cart
     return redirect("/order")
 
-# BELOW THIS POINT IS SIMPLY PAGES TO ADD DATA TO THE DATABASE AND WILL NOT BE NECESSARY FOR THE FINAL PRODUCT
+@app.route("/edit_review/<int:GameID>/<int:UserID>", methods=["GET", "POST"])
+def edit_review(GameID, UserID):
+    db = Database()
+
+    newMessage = request.form["Message"]
+    newStars = request.form["StarRating"]
+
+    db.editReview(GameID, UserID, newStars, newMessage)
+    
+    db.close()
+    return redirect(f"/game/{GameID}")
+
 @app.route("/admin")
 def adminPanel():
     db = Database()

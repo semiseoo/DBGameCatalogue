@@ -100,8 +100,19 @@
                 <td class="gamepage-table-label" style="background-color: aqua; width: fit-content;">Star Rating: {{ item.StarRating }}</td>
                 <td style="width: 100%; background-color: white;">{{ item.Message }}</td>
                 {% if item.UserID == session.UserID %}
-                    <td><button>Edit review</button></td>
-                    <td><button>Delete review</button></td>
+                    <form action="/edit_review/{{ GameID }}/{{ item.UserID }}" method="POST">
+                        <td>
+                            <input type="number" name="StarRating" min="1" max="5" value="{{ item.StarRating }}">
+                        </td>
+                        <td>
+                            <textarea name="Message" style="width: 100%;">{{ item.Message }}</textarea>
+                        </td>
+                        <td>
+                            <button type="submit">Save</button>
+                        </td>
+                    </form>
+
+                    <td><button><a href="/delete_review/{{ gameData.GameID }}/{{ item.UserID }}">Delete review</a></button></td>
                 {% endif %}
             </tr>
         {% else %}
