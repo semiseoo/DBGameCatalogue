@@ -1,4 +1,4 @@
-DB_HOST = "internal "
-DB_USER = "root"
-DB_PWD = "Free.com1"
+DB_HOST = "internal ip address"
+DB_USER = "username"
+DB_PWD = "password"
 DB_NAME = "DBGameCatalogue"
