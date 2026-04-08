@@ -299,7 +299,7 @@ def list():
     db.close()
     return render_template('list.html', tags=tags, grid=grid, page=page, lastPage=lastPage)
 
-@app.route("/order", methods=['POST'])
+@app.route("/order", methods=['GET', 'POST'])
 def order():
     db = Database()
     cart = session.get("cart", [])
