@@ -188,8 +188,9 @@ class Database:
             else:
                 return "Failure"
             result = "Success"
-        except:
-            result = "Failure"
+        except Exception as e:
+            print(e)
+            return "Failure"
         return result
 
 @app.route("/")
