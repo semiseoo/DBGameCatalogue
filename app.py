@@ -338,7 +338,7 @@ def gamepage(GameID):
     return render_template('gamepage.html', gameData=gameData, Tags=Tags, DLC=DLC)
 
 @app.route("/cart/<int:GameID>/game")
-def gamepage(GameID):
+def cartGame(GameID):
     cart = session.get("cart", [])
     item = {"type": "Game", "ID": GameID}
     cart.append(item)
@@ -346,7 +346,7 @@ def gamepage(GameID):
     return redirect("/list")
 
 @app.route("/cart/<int:DLCID>/dlc")
-def gamepage(DLCID):
+def cartDLC(DLCID):
     cart = session.get("cart", [])
     item = {"type": "DLC", "ID": DLCID}
     cart.append(item)
