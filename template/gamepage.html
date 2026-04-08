@@ -100,6 +100,8 @@
                 <td>{{ item.StarRating }}</td>
                 <td>{{ item.Message }}</td>
             </tr>
+        {% else %}
+            <H5>No Reviews</H5>
         {% endfor %}
     {% endif %}
 </table>
