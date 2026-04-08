@@ -204,7 +204,7 @@ class Database:
     
     def editReview(self, GameID, UserID, stars, message):
         try:
-            query = "UPDATE Reviews SET StarRating = %s, Message = %s WHERE GameID = %s AND UserID = %s"
+            query = "UPDATE Review SET StarRating = %s, Message = %s WHERE GameID = %s AND UserID = %s"
             self.cur.execute(query, (stars, message, GameID, UserID))
             self.con.commit()
             result = "Success"
