@@ -422,14 +422,14 @@ def add_review():
     rating = request.form["rating"]
     reviewText = request.form["reviewText"]
 
-    query = "SELECT UserID FROM user WHERE Username=%s"
+    query = "SELECT UserID FROM User WHERE Username=%s"
     db.cur.execute(query, (username,))
     user = db.cur.fetchone()
 
     userID = user["UserID"]
 
     insert = """
-    INSERT INTO review (UserID, GameID, StarRating, Message)
+    INSERT INTO Review (UserID, GameID, StarRating, Message)
     VALUES (%s, %s, %s, %s)
     """
 
