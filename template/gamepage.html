@@ -96,9 +96,9 @@
     {% if reviews %}
         {% for item in reviews %}
             <tr>
-                <td>{{ item.username }}</td>
-                <td>{{ item.StarRating }}</td>
-                <td>{{ item.Message }}</td>
+                <td style="width: 125px; background-color: azure;">User: {{ item.username }}</td>
+                <td style="width: 125px; background-color: aqua;">Star Rating: {{ item.StarRating }}</td>
+                <td style="width: 100%; background-color: white;">{{ item.Message }}</td>
             </tr>
         {% else %}
             <tr><td><H5>No Reviews</H5></td></tr>
