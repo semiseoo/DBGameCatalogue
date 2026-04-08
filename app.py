@@ -440,7 +440,30 @@ def add_review():
 
     return redirect(request.referrer)
 
+@app.route("/delete_review", methods=["POST"])
+def delete_review():
 
+    if "username" not in session:
+        return redirect("/login")
+
+    db = Database()
+
+    username = session["username"]
+    gameID = request.form.get("gameID")
+
+    query = "SELECT UserID FROM user WHERE Username=%s"
+    db.cur.execute(query, (username,))
+    user = db.cur.fetchone()
+
+    userID = user["UserID"]
+
+    delete = "DELETE FROM review WHERE UserID=%s AND GameID=%s"
+    db.cur.execute(delete, (userID, gameID))
+    db.con.commit()
+
+    db.close()
+
+    return redirect(request.referrer)
 
 @app.route("/add/developer", methods=["POST"])
 def addDeveloper():
