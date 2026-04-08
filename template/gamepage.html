@@ -96,8 +96,8 @@
     {% if reviews %}
         {% for item in reviews %}
             <tr>
-                <td class="gamepage-table-label">User: {{ item.username }}</td>
-                <td class="gamepage-table-label" style="background-color: aqua;">Star Rating: {{ item.StarRating }}</td>
+                <td class="gamepage-table-label" style="width: fit-content;">User: {{ item.username }}</td>
+                <td class="gamepage-table-label" style="background-color: aqua; width: fit-content;">Star Rating: {{ item.StarRating }}</td>
                 <td style="width: 100%; background-color: white;">{{ item.Message }}</td>
             </tr>
         {% else %}
