@@ -165,8 +165,9 @@ class Database:
         try:
             query = "INSERT INTO Purchase (UserID, Date) Values (%s, NOW())"
             self.cur.execute(query, (UserID,))
+            purchaseID = self.cur.lastrowid
             self.con.commit()
-            self.cur.execute("SELECT LAST_INSERT_ID()")
+
             purchaseID = self.cur.fetchone()[0]
 
             return purchaseID
