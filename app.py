@@ -391,23 +391,6 @@ def rmcartDLC(ID):
     session["cart"] = cart
     return redirect("/order")
 
-# BELOW THIS POINT IS SIMPLY PAGES TO ADD DATA TO THE DATABASE AND WILL NOT BE NECESSARY FOR THE FINAL PRODUCT
-@app.route("/admin")
-def adminPanel():
-    db = Database()
-    developers = db.selectDevelopers()
-    publishers = db.selectPublishers()
-    games = db.selectGames()
-    tags = db.selectTags()
-    db.close()
-    return render_template(
-        "admin.html",
-        developers=developers,
-        publishers=publishers,
-        games=games,
-        tags=tags
-    )
-
 #ALLOWS USER REVIEWS
 @app.route("/add_review", methods=["POST"])
 def add_review():
@@ -439,6 +422,23 @@ def add_review():
     db.close()
 
     return redirect(request.referrer)
+
+# BELOW THIS POINT IS SIMPLY PAGES TO ADD DATA TO THE DATABASE AND WILL NOT BE NECESSARY FOR THE FINAL PRODUCT
+@app.route("/admin")
+def adminPanel():
+    db = Database()
+    developers = db.selectDevelopers()
+    publishers = db.selectPublishers()
+    games = db.selectGames()
+    tags = db.selectTags()
+    db.close()
+    return render_template(
+        "admin.html",
+        developers=developers,
+        publishers=publishers,
+        games=games,
+        tags=tags
+    )
 
 @app.route("/add/developer", methods=["POST"])
 def addDeveloper():
