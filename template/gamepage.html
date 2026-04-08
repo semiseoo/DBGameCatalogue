@@ -110,7 +110,12 @@
                         </td>
                     </form>
 
-                    <td><button><a href="/delete_review/{{ GameID }}/{{ item.UserID }}" style="padding-left: 15px; padding-right: 15px;">Delete review</a></button></td>
+                    <td>
+                        <form method="POST" action="/delete_review" style="display:inline;">
+                            <input type="hidden" name="gameID" value="{{ GameID }}">
+                            <button type="submit">Delete review</button>
+                        </form>    
+                    </td>
                 {% else %}
                     <td class="gamepage-table-label" style="background-color: aqua; width: fit-content;">Star Rating: {{ item.StarRating }}</td>
                     <td style="width: 100%; background-color: white;">{{ item.Message }}</td>
