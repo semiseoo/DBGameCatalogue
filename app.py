@@ -175,13 +175,13 @@ class Database:
             return None
 
     
-    def addPurchaseItem(self, PurchaseID, ID, Price, type):
+    def addPurchaseItem(self, PurchaseID, ID, Price, itemType):
         try:
-            if type == "Game":
+            if itemType == "Game":
                 query = "INSERT INTO PurchaseItem (PurchaseID, GameID, Price) Values (%s, %s, %s)"
                 self.cur.execute(query, (PurchaseID, ID, Price))
                 self.con.commit()
-            elif type == "DLC":
+            elif itemType == "DLC":
                 query = "INSERT INTO PurchaseItem (PurchaseID, DLCID, Price) Values (%s, %s, %s)"
                 self.cur.execute(query, (PurchaseID, ID, Price))
                 self.con.commit()
@@ -325,13 +325,12 @@ def order():
 
     if request.method == "POST":
         purchaseID = db.createPurchase(session["UserID"])
-        print(purchaseID)
         if purchaseID:
             for item in cartItems:
                 if "DLCID" in item:
-                    print(db.addPurchaseItem(purchaseID, item["DLCID"], item["Price"], "DLC"))
+                    db.addPurchaseItem(purchaseID, item["DLCID"], item["Price"], "DLC")
                 else:
-                    print(db.addPurchaseItem(purchaseID, item["GameID"], item["Price"], "Game"))
+                    db.addPurchaseItem(purchaseID, item["GameID"], item["Price"], "Game")
     db.close()
     return render_template('order.html', cartItems=cartItems, totalCost=totalCost)
 
