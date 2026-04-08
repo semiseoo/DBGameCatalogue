@@ -440,6 +440,8 @@ def add_review():
 
     return redirect(request.referrer)
 
+
+
 @app.route("/add/developer", methods=["POST"])
 def addDeveloper():
     db = Database()
