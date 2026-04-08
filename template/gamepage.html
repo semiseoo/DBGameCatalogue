@@ -57,5 +57,38 @@
             {% endif %}
         </td>
     </tr>
+
+    <tr>
+        <td class="gamepage-table-item">
+            {%if session.username%}
+            <form method="POST" action="/add_review">
+                <input type="hidden" name="gameID" value="{{gameData.GameID}}">
+                
+                <label>Rating:</label>
+                <select name="rating" required>
+                    <option value=""> Select rating </option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+                <br><br>
+
+                <label>Review:</label><br>
+                <textarea name="reviewText" rows="4" cols="40" required></textarea>
+                <br><br>
+                <button type="submit">Submit Review</button>
+            </form>
+            {%else%}
+                Please <a href="/login">login</a> to leave a review
+            {% endif %}
+        </td>
+    </tr>
 </table>
 {% endblock %}
