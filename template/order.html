@@ -10,12 +10,12 @@
         <div class="order-summary">
             <h2>Your Order</h2>
             <div id="cart-items">
-                {{ for item in cartItems }}
+                {% for item in cartItems %}
                     <div class="cart-item">
                         <span>{{ item.Name }}</span>
                         <span>{{ item.Price }}</span>
                     </div>
-                {{ endfor }}
+                {% endfor %}
             </div>
             <div class="total">
                 <strong>Total: ${{ totalCost }}</strong>
