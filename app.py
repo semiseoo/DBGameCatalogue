@@ -488,7 +488,7 @@ def delete_review():
     username = session["username"]
     gameID = request.form.get("gameID")
 
-    query = "SELECT UserID FROM user WHERE Username=%s"
+    query = "SELECT UserID FROM User WHERE Username=%s"
     db.cur.execute(query, (username,))
     user = db.cur.fetchone()
 
