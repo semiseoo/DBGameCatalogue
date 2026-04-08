@@ -3,7 +3,7 @@
 {% block content %}
 <div class="gamepage-header">
     <h1>{{ gameData.Name }}</h1>
-    <a href="/game/{{ cell.GameID }}/cart">Add To Cart</a>
+    <a href="/cart/{{ cell.GameID }}/game">Add To Cart</a>
 </div><br>
 <table class="gamepage-table">
     <tr>
@@ -50,7 +50,7 @@
                     <div class="gamepage-dlc-box">
                         <strong>{{ item.Name }}</strong><br>
                         Price: ${{ item.Price }}<br>
-                        <a href="/dlc/{{ item.DLCID }}/cart">Add To Cart</a>
+                        <a href="/cart/{{ item.DLCID }}/dlc">Add To Cart</a>
                     </div>
                 {% endfor %}
             {% endif %}

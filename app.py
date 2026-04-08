@@ -8,8 +8,6 @@ app= Flask(__name__, template_folder='template')
 
 app.secret_key = "supersecretkey"
 
-cart = session.get("cart", [])
-
 class Database:
     def __init__(self):
        host = credentials.DB_HOST
@@ -339,7 +337,7 @@ def gamepage(GameID):
     db.close()
     return render_template('gamepage.html', gameData=gameData, Tags=Tags, DLC=DLC)
 
-@app.route("/game/<int:GameID>/cart")
+@app.route("/cart/<int:GameID>/game")
 def gamepage(GameID):
     cart = session.get("cart", [])
     item = {"type": "Game", "ID": GameID}
@@ -347,7 +345,7 @@ def gamepage(GameID):
     session["cart"] = cart
     return redirect("/list")
 
-@app.route("/dlc/<int:DLCID>/cart")
+@app.route("/cart/<int:DLCID>/dlc")
 def gamepage(DLCID):
     cart = session.get("cart", [])
     item = {"type": "DLC", "ID": DLCID}
