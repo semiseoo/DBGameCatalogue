@@ -14,7 +14,11 @@
                     <div class="cart-item">
                         <span>{{ item.Name }}</span>
                         <span>{{ item.Price }}</span>
-                        <a href="/cart/{{ item.ID }}/remove">[-]</a>
+                        {% if item.GameID %}
+                            <a href="/rmcart/{{ item.ID }}/game">[-]</a>
+                        {% elif item.DLCID %}
+                            <a href="/rmcart/{{ item.ID }}/dlc">[-]</a>
+                        {% endif %}
                     </div>
                 {% endfor %}
             </div>

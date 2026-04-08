@@ -313,7 +313,6 @@ def order():
         db.cur.execute(query, (item["ID"],))
         result = db.cur.fetchone()
         if result:
-            result["ID"] = result.get("GameID") or result.get("DLCID")
             totalCost += float(result["Price"])
             cartItems.append(result)
     db.close()
@@ -354,11 +353,21 @@ def cartDLC(DLCID):
     session["cart"] = cart
     return redirect("/list")
 
-@app.route("/cart/<int:ID>/remove")
-def cartRemove(ID):
+@app.route("/rmcart/<int:ID>/game")
+def rmcartGame(ID):
     cart = session.get("cart", [])
     for item in cart:
-        if item["ID"] == ID:
+        if item["ID"] == ID and item["type"] == "Game":
+            cart.remove(item)
+            break
+    session["cart"] = cart
+    return redirect("/order")
+
+@app.route("/rmcart/<int:ID>/dlc")
+def rmcartDLC(ID):
+    cart = session.get("cart", [])
+    for item in cart:
+        if item["ID"] == ID and item["type"] == "DLC":
             cart.remove(item)
             break
     session["cart"] = cart
