@@ -331,6 +331,7 @@ def order():
                     db.addPurchaseItem(purchaseID, item["DLCID"], item["Price"], "DLC")
                 else:
                     db.addPurchaseItem(purchaseID, item["GameID"], item["Price"], "Game")
+        session["cart"] = []
     db.close()
     return render_template('order.html', cartItems=cartItems, totalCost=totalCost)
 
