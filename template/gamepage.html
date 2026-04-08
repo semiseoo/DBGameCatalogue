@@ -97,15 +97,14 @@
         {% for item in reviews %}
             <tr>
                 <td class="gamepage-table-label" style="width: fit-content;">User: {{ item.username }}</td>
-                <td class="gamepage-table-label" style="background-color: aqua; width: fit-content;">Star Rating: {{ item.StarRating }}</td>
-                <td style="width: 100%; background-color: white;">{{ item.Message }}</td>
+                
                 {% if item.UserID == session.UserID %}
                     <form action="/edit_review/{{ GameID }}/{{ item.UserID }}" method="POST">
                         <td>
-                            <input type="number" name="StarRating" min="1" max="5" value="{{ item.StarRating }}">
+                            <input class="gamepage-table-label" type="number" name="StarRating" min="1" max="5" value="{{ item.StarRating }}" style="background-color: aqua; width: fit-content;">
                         </td>
                         <td>
-                            <textarea name="Message" style="width: 100%;">{{ item.Message }}</textarea>
+                            <textarea name="Message" style="width: 100%; min-width: 200px; background-color: white;">{{ item.Message }}</textarea>
                         </td>
                         <td>
                             <button type="submit">Save</button>
@@ -113,6 +112,9 @@
                     </form>
 
                     <td><button><a href="/delete_review/{{ GameID }}/{{ item.UserID }}">Delete review</a></button></td>
+                {% else %}
+                    <td class="gamepage-table-label" style="background-color: aqua; width: fit-content;">Star Rating: {{ item.StarRating }}</td>
+                    <td style="width: 100%; background-color: white;">{{ item.Message }}</td>
                 {% endif %}
             </tr>
         {% else %}
