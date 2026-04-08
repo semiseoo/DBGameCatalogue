@@ -313,6 +313,7 @@ def order():
         db.cur.execute(query, (item["ID"],))
         result = db.cur.fetchone()
         if result:
+            result["ID"] = result.get("GameID") or result.get("DLCID")
             totalCost += float(result["Price"])
             cartItems.append(result)
     db.close()
@@ -352,6 +353,13 @@ def cartDLC(DLCID):
     cart.append(item)
     session["cart"] = cart
     return redirect("/list")
+
+@app.route("/cart/<int:ID>/remove")
+def cartRemove(ID):
+    cart = session.get("cart", [])
+    cart = [item for item in cart if item["ID"] != target_id]
+    session["cart"] = cart
+    return redirect("/order")
 
 # BELOW THIS POINT IS SIMPLY PAGES TO ADD DATA TO THE DATABASE AND WILL NOT BE NECESSARY FOR THE FINAL PRODUCT
 @app.route("/admin")
