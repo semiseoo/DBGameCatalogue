@@ -445,10 +445,11 @@ def add_review():
     INSERT INTO Review (UserID, GameID, StarRating, Message)
     VALUES (%s, %s, %s, %s)
     """
-
-    db.cur.execute(insert, (userID, gameID, rating, reviewText))
-    db.con.commit()
-
+    try:
+        db.cur.execute(insert, (userID, gameID, rating, reviewText))
+        db.con.commit()
+    except Exception as e:
+        print(e)
     db.close()
 
     return redirect(request.referrer)
