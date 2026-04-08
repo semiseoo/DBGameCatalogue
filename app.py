@@ -362,9 +362,10 @@ def gamepage(GameID):
             DLC.append({"DLCID": DLCID, "Name": Name, "Price": Price})
     else:
         DLC = ""
-    db.close()
 
     reviews = db.getReviews(GameID)
+
+    db.close()
 
     return render_template('gamepage.html', gameData=gameData, Tags=Tags, DLC=DLC, reviews=reviews)
 
